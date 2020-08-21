@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+    
+    <!--가져오는거  -->
+	<!-- <insert id="insert" parameterType="member">
+		INSERT INTO MEMBERT1(MNAME, MADDR, MAGE)
+		VALUES(#{mname}, #{maddr}, #{mage})
+	</insert> -->
+	
+	<!--받아오는거  -->
+	<select id="mList" resultType="member">
+	  SELECT * FROM MEMBERT1	
+	</select>
+	 
+	<!-- join  -->
+	<insert id="insert" parameterType="member1">
+		INSERT INTO JOIN(ID, PW, GENDER, JDATE)
+		VALUES(#{id}, #{pw}, #{gender}, #{jdate})
+	</insert>  
+	
+	
+</mapper>
