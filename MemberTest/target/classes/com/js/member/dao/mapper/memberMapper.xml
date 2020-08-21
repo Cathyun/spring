@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+	<!--회원가입  -->
+	<!--parameterType : 가지고 온 MemberDTO값을 담아줄 때 사용,담아줄 변수를 member선언해준것임! -->
+	<insert id="memberJoin" parameterType="member">
+	  INSERT INTO MEMBERTEST
+	  VALUES(#{jsid}, #{jspw},#{jsname},#{jsbirth},#{jsgender},#{jsemail})
+	</insert>
+	
+	<!-- 회원목록조회 -->
+	<!--resultType : 결과물을 담아올 때 사용하는 메소드, 그에 해당하는 것은 결과물을 담을 변수를 선언해준다. -->
+	<select id="memberList" resultType="member">
+	  SELECT * FROM MEMBERTEST
+	</select>
+	
+	<!-- 아이디를 member안에 담아서 controller로 이동 -->
+	<!-- resultType : 이것은 int타입 -->
+	<!-- 로그인 -->
+    <select id="memberLogin" parameterType="member" resultType="String">
+	  SELECT JSID FROM MEMBERTEST WHERE JSID = #{jsid} AND JSPW =#{jspw}
+	</select>
+	
+	<!-- 상세조회  -->
+	<select id= "memberView" parameterType="String" resultType="member">
+	  SELECT * FROM MEMBERTEST WHERE JSID = #{jsid}
+	</select>
+	
+	<!--회원삭제  -->
+	<delete id="memberDelete" parameterType="String">
+	  DELETE FROM MEMBERTEST WHERE JSID =#{jsid}
+	</delete>
+	
+	<!-- 회원수정하기  -->
+	<!-- 회원 정보를 모두 가져와야 함으로 parameter값을 member로 받아야함 -->
+	<update id="memberModify" parameterType="member">
+	 UPDATE MEMBERTEST SET JSPW = #{jspw}, JSNAME=#{jsname},JSBIRTH=#{jsbirth}, 
+	 JSGENDER=#{jsgender},JSEMAIL=#{jsemail} WHERE JSID=#{jsid}
+	</update>
+	
+	
+	
+	</mapper>
