@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+
+	<!-- 게시판 글쓰기  -->
+	<insert id="boardWriteFile" parameterType="board">
+		INSERT INTO BOARDTEST
+		VALUES(BNUM_SEQ.nextval, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0, #{bfilename})
+	</insert>
+	
+	<!-- 게시판목록보기 -->
+	<select id="boardList" resultType="board">
+		SELECT * FROM BOARDTEST
+	</select>
+	
+    <!-- 카운트 -->
+	<select id = "listCount" resultType="int">
+		SELECT COUNT(*) FROM BOARDTEST
+	</select>
+	
+	<!-- 페이징처리 -->
+	<select id="paginglist" parameterType="paging" resultType="board">
+		SELECT * FROM BOARDLISTT WHERE RN BETWEEN #{startrow} AND #{endrow} 
+	</select>
+	
+	
+	<!--게시물 상세보기 -->
+	<select id = "listView" parameterType="int" resultType="board">
+		SELECT * FROM BOARDTEST WHERE BNUM=#{bnum}
+	</select>
+	
+	<!-- 수정페이지이동 -->
+	<select id = "boardModify" parameterType="int" resultType="board">
+		SELECT * FROM BOARDTEST WHERE BNUM=#{bnum}
+	</select>
+	
+	<!-- 게시물 수정하기 -->
+	<update id="listProcess" parameterType="board">
+		UPDATE BOARDTEST SET BWRITER=#{bwriter},BTITLE=#{btitle},BPASSWORD=#{bpassword},
+		BCONTENTS=#{bcontents},BFILENAME=#{bfilename} WHERE BNUM=#{bnum}
+	</update>
+	
+	<!-- 조회수 증가  -->
+	<update id="boardHit" parameterType="int">
+		UPDATE BOARDTEST SET BHIT=BHIT+1 WHERE BNUM = #{bNum}
+	</update>
+	
+	
+	<!-- 게시물 삭제 -->
+	<delete id="boardDelete" parameterType="int">
+		DELETE FROM BOARDTEST WHERE BNUM=#{bNum} 
+	</delete>
+	
+	<!-- 검색조건(작성자)  -->
+	<select id="search1" parameterType="String" resultType="board">
+		SELECT * FROM BOARDTEST WHERE BWRITER LIKE '%'||#{keyword}||'%'
+	</select>
+	
+	<!-- 검색조건(제목) -->
+	<select id="search2" parameterType="String" resultType="board">
+		SELECT * FROM BOARDTEST WHERE BTITLE LIKE '%'||#{keyword}||'%'
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
