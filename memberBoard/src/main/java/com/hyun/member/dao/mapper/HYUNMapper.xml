@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memBoard">
+	<!-- 회원가입 -->
+	<insert id="memberjoin" parameterType="memberBoard">
+	INSERT INTO MEMBOARD VALUES(#{mbid},#{mbpw},#{mbname},#{mbbirth},#{mbemail})
+	</insert>
+	
+	<!-- 로그인  -->
+	<select id="memberLogin" parameterType="memberBoard" resultType="String">
+		SELECT MBID FROM MEMBOARD WHERE MBID=#{mbid} AND MBPW =#{mbpw}
+	</select>
+	
+	<!-- 회원목록조회  -->
+	<select id="memberList" resultType="memberBoard">
+		SELECT * FROM MEMBOARD
+	</select>
+	
+	<!-- 회원상세조회  -->
+	<select id="memberOne" parameterType="String" resultType="memberBoard">
+		SELECT * FROM MEMBOARD WHERE MBID=#{mbid}
+	</select>
+	
+	<!-- 내정보조회 -->
+	<select id="myInfo" parameterType="String" resultType="memberBoard">
+		SELECT * FROM MEMBOARD WHERE MBID=#{mbid}
+	</select>
+	
+	<!--회원삭제  -->
+	<delete id="memberDel" parameterType="String">
+		DELETE FROM MEMBOARD WHERE MBID=#{mbid}
+	</delete>
+	
+	<!-- 회원수정 -->
+	<update id="memberProcess" parameterType="memberBoard">
+		UPDATE MEMBOARD SET MBPW=#{mbpw},MBBIRTH=#{mbbirth},MBEMAIL=#{mbemail}
+	</update>
+	
+	<!-- 아이디중복확인  -->
+	<select id="idOverlap" parameterType="String" resultType="String">
+		SELECT 	MBID FROM MEMBOARD WHERE MBID=#{mbid}
+	</select>
+	
+	<!--===============================게시물======================================  -->
+	<!--글등록  -->
+	<insert id="boardWrite" parameterType="Board">
+		INSERT INTO BOARDLIST2 
+		VALUES(BNUM_SEQ.nextval,#{bwriter},#{bpassword},#{btitle},#{bcontents},SYSDATE, 0,#{bfilename})
+	</insert>	
+
+	<!--글목록보기  -->
+	<select id="boardList" resultType="Board">
+		SELECT * FROM BOARDLIST2
+	</select>
+	
+	<!-- 글상세보기 -->
+	<select id="listView" parameterType="int" resultType="Board">
+		SELECT * FROM BOARDLIST2 WHERE BNUM=#{bnum}
+	</select>
+	
+	<!-- 글삭제  -->
+	<delete id="listDel" parameterType="int">
+		DELETE FROM BOARDLIST2 WHERE BNUM=#{bnum}
+	</delete>
+	
+	<!--글수정  -->
+	<update id="listProcess" parameterType="Board">
+		UPDATE BOARDLIST2 SET BTITLE=#{btitle},BPASSWORD=#{bpassword},
+		BCONTENTS=#{bcontents}, BFILENAME=#{bfilename} WHERE BNUM=#{bnum} 
+	</update>
+
+	<!-- 검색기능(작성자) -->
+	<select id="search1" parameterType="String" resultType="Board">
+		SELECT * FROM BOARDLIST2 WHERE BWRITER LIKE '%'||#{content}||'%'
+	</select>
+	
+	<!--검색기능(제목)  -->
+	<select id="search2" parameterType="String" resultType="Board">
+		SELECT * FROM BOARDLIST2 WHERE BTITLE LIKE '%'||#{content}||'%'
+	</select>
+	
+	
+	
+	
+	
+</mapper>
